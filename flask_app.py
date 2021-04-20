@@ -9,6 +9,8 @@ logging.basicConfig(level=logging.INFO)
 
 sessionStorage = {}
 
+animals = 'слон'
+
 
 @app.route('/post', methods=['POST'])
 def main():
@@ -30,10 +32,10 @@ def main():
 
 
 def handle_dialog(req, res):
+    global animals
     user_id = req['session']['user_id']
 
     if req['session']['new']:
-
         sessionStorage[user_id] = {
             'suggests': [
                 "Не хочу.",
@@ -42,7 +44,7 @@ def handle_dialog(req, res):
             ]
         }
 
-        res['response']['text'] = 'Привет! Купи слона!'
+        res['response']['text'] = f'Привет! Купи {animals}а!'
 
         res['response']['buttons'] = get_suggests(user_id)
         return
@@ -52,10 +54,15 @@ def handle_dialog(req, res):
         'куплю',
         'покупаю',
         'хорошо'
-    ]:
-
-        res['response']['text'] = 'Слона можно найти на Яндекс.Маркете!'
-        res['response']['end_session'] = True
+    ] or 'ладно' in req['request']['original_utterance'].lower() \
+            or 'куплю' in req['request']['original_utterance'].lower() \
+            or 'хорошо' in req['request']['original_utterance'].lower() \
+            or 'покупаю' in req['request']['original_utterance'].lower():
+        res['response']['text'] = f'{animals}а можно найти на Яндекс.Маркете!'
+        if animals == 'кролик':
+            res['response']['end_session'] = True
+        else:
+            animals = 'кролик'
         return
 
     res['response']['text'] = \
@@ -77,7 +84,7 @@ def get_suggests(user_id):
     if len(suggests) < 2:
         suggests.append({
             "title": "Ладно",
-            "url": "https://market.yandex.ru/search?text=слон",
+            "url": f"https://market.yandex.ru/search?text={animals}",
             "hide": True
         })
 

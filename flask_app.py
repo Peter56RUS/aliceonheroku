@@ -58,15 +58,19 @@ def handle_dialog(req, res):
             or 'куплю' in req['request']['original_utterance'].lower() \
             or 'хорошо' in req['request']['original_utterance'].lower() \
             or 'покупаю' in req['request']['original_utterance'].lower():
+
         res['response']['text'] = f'{animals}а можно найти на Яндекс.Маркете!'
         if animals == 'кролик':
             res['response']['end_session'] = True
         else:
             animals = 'кролик'
+
+        res['response']['text'] = 'Слона можно найти на Яндекс.Маркете!'
+        res['response']['end_session'] = True
         return
 
     res['response']['text'] = \
-        f"Все говорят '{req['request']['original_utterance']}', а ты купи слона!"
+        f"Все говорят '{req['request']['original_utterance']}', а ты купи {animals}а!"
     res['response']['buttons'] = get_suggests(user_id)
 
 

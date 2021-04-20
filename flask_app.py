@@ -65,8 +65,6 @@ def handle_dialog(req, res):
         else:
             animals = 'кролик'
 
-        res['response']['text'] = f'{animals}а можно найти на Яндекс.Маркете!'
-        res['response']['end_session'] = True
         return
 
     res['response']['text'] = \
@@ -75,6 +73,7 @@ def handle_dialog(req, res):
 
 
 def get_suggests(user_id):
+    global animals
     session = sessionStorage[user_id]
 
     suggests = [

@@ -9,7 +9,25 @@ logging.basicConfig(level=logging.INFO)
 
 sessionStorage = {}
 
-animals = 'слон'
+places = [('Пешеходный мост через реку Урал',
+           '''Красивый пешеходный мост соединяет два берега реки Урал, которая раньше считалась своеобразной разделительной чертой между Европейской и Азиатской частями света. Первое наплавное сооружение было построено здесь еще в 1835 году, вскоре его заменили на свайную конструкцию.
+
+Свой современный вид мост приобрел в 1982 году, а использованные современные технологии позволили сделать его изящным, несмотря на большую — 220 метров — длину.
+
+Середину моста отмечают своего рода пограничные столбы, на одной стороне которых написано «Азия», а на другой — «Европа». Перила украшены замочками, которые вешают сюда влюбленные, оборудован спуск к реке, есть подсветка.
+
+Попасть на мост можно с Советской улицы, отсюда открывается красивый вид на детскую железную дорогу, Зауральную рощу, памятник Чкалову и набережную города.''',
+           'ссылка на геокодер'),
+          ('Памятник Пушкину и Далю',
+           '''Парная скульптура, расположенная в центре сквера Полины Осипенко, была открыта в конце 20-го века, мастер — Надежда Петина. Мужчины изображены в пол-оборота друг к другу, во время беседы. Даль стоит с непокрытой головой, а на более низкого Пушкина одет цилиндр — так меньше бросается в глаза разница в росте.
+
+Владимир Даль составлял компанию Пушкину во время его визита в Оренбург, предпринятого с целью узнать подробности о восстании Пугачева. Знакомые вместе побывали в церкви Петра и Павла, которая стояла на месте сквера до 30-х годов 20-го века. В память о ней основанию памятника была придана форма креста.''',
+           "ссылка на геокодер"),
+          ('Памятник Валерию Чкалову',
+           '''Валерий Чкалов совершил множество испытательных полетов на различных самолетах, включая истребители и тяжелые бомбардировщики. Первым перелетел через Северный полюс, не совершив ни одной посадки, удостоен нескольких наград. Погиб во время очередного испытания, из-за неисправности.
+
+Памятник летчику был установлен в 1953 году, спустя 15 лет после катастрофы. Скульптором выступил Исаак Менделеевич, архитектором — Виктор Андреев. 6-метровая бронзовая широкоплечая фигура возвышается на берегу Урала, лицом к летному училищу. Скульптор изобразил Валерия Чкалова в простой одежде и расслабленной позе, словно немного уставшим после очередного полета.''',
+           'ссылка на геокодер')]
 
 
 @app.route('/post', methods=['POST'])
@@ -32,7 +50,6 @@ def main():
 
 
 def handle_dialog(req, res):
-    global animals
     user_id = req['session']['user_id']
 
     if req['session']['new']:
@@ -44,54 +61,38 @@ def handle_dialog(req, res):
             ]
         }
 
-        res['response']['text'] = f'Привет! Купи {animals}а!'
+        res['response'][
+            'text'] = f'Добрый день! Вас приветствует навык "достопримечательности Оренбурга! О чём вы хотите узнать?'
 
-        res['response']['buttons'] = get_suggests(user_id)
+        # res['response']['buttons'] = get_suggests(user_id)
         return
 
-    if req['request']['original_utterance'].lower() in [
-        'ладно',
-        'куплю',
-        'покупаю',
+        # if req['request']['original_utterance'].lower() in [
+        # 'ладно',
+        # 'куплю',
+        # 'покупаю',
         'хорошо'
-    ] or 'ладно' in req['request']['original_utterance'].lower() \
-            or 'куплю' in req['request']['original_utterance'].lower() \
-            or 'хорошо' in req['request']['original_utterance'].lower() \
-            or 'покупаю' in req['request']['original_utterance'].lower():
+    # ] or 'ладно' in req['request']['original_utterance'].lower() \
+    # or 'куплю' in req['request']['original_utterance'].lower() \
+    # or 'хорошо' in req['request']['original_utterance'].lower() \
+    # or 'покупаю' in req['request']['original_utterance'].lower():
 
-        res['response']['text'] = f'{animals}а можно найти на Яндекс.Маркете!'
-        if animals == 'кролик':
-            res['response']['end_session'] = True
-        else:
-            animals = 'кролик'
+    # res['response']['text'] = f'{animals}а можно найти на Яндекс.Маркете!'
+    # if animals == 'кролик':
+    # res['response']['end_session'] = True
+    # else:
+    # animals = 'кролик'
 
-        return
+    # return
 
-    res['response']['text'] = \
-        f"Все говорят '{req['request']['original_utterance']}', а ты купи {animals}а!"
-    res['response']['buttons'] = get_suggests(user_id)
+    # res['response']['text'] = \
+    # f"Все говорят '{req['request']['original_utterance']}', а ты купи {animals}а!"
+    # res['response']['buttons'] = get_suggests(user_id)
 
 
 def get_suggests(user_id):
-    global animals
-    session = sessionStorage[user_id]
-
-    suggests = [
-        {'title': suggest, 'hide': True}
-        for suggest in session['suggests'][:2]
-    ]
-
-    session['suggests'] = session['suggests'][1:]
-    sessionStorage[user_id] = session
-
-    if len(suggests) < 2:
-        suggests.append({
-            "title": "Ладно",
-            "url": f"https://market.yandex.ru/search?text={animals}",
-            "hide": True
-        })
-
-    return suggests
+    global places
+    pass
 
 
 if __name__ == '__main__':

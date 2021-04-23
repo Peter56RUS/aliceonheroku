@@ -95,16 +95,18 @@ def handle_dialog(req, res):
 
     if 'пешеходный мост' in req['request']['original_utterance'].lower():
         res['response']['text'] = places[0][1]
-    if 'памятник чкалову' in req['request']['original_utterance'].lower():
+    elif 'памятник чкалову' in req['request']['original_utterance'].lower():
         res['response']['text'] = places[1][1]
-    if 'памятник пушкину' in req['request']['original_utterance'].lower():
+    elif 'памятник пушкину' in req['request']['original_utterance'].lower():
         res['response']['text'] = places[2][1]
-    if 'башня с курантами' in req['request']['original_utterance'].lower():
+    elif 'башня с курантами' in req['request']['original_utterance'].lower():
         res['response']['text'] = places[3][1]
-    if 'детская железная дорога' in req['request']['original_utterance'].lower():
+    elif 'детская железная дорога' in req['request']['original_utterance'].lower():
         res['response']['text'] = places[4][1]
-    if 'памятник гагарину' in req['request']['original_utterance'].lower():
+    elif 'памятник гагарину' in req['request']['original_utterance'].lower():
         res['response']['text'] = places[5][1]
+    else:
+        res['response']['text'] = 'Команда некорректна. Похоже, вы немного ошиблись. Выберите одну из плтиток ниже'
     res['response']['buttons'] = get_suggests(user_id)
 
 

@@ -106,7 +106,7 @@ def handle_dialog(req, res):
     elif 'памятник гагарину' in req['request']['original_utterance'].lower():
         res['response']['text'] = places[5][1]
     else:
-        res['response']['text'] = 'Команда некорректна. Похоже, вы немного ошиблись. Выберите одну из плтиток ниже'
+        res['response']['text'] = 'Команда некорректна. Похоже, вы немного ошиблись. Выберите одну из плиток ниже'
     res['response']['buttons'] = get_suggests(user_id)
 
 

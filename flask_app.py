@@ -76,10 +76,6 @@ def handle_dialog(req, res):
         res['response']['text'] = places[0][1]
 
 
-    return
-
-
-
 def get_suggests(user_id):
     global places
     session = sessionStorage[user_id]

@@ -55,16 +55,16 @@ def handle_dialog(req, res):
     if req['session']['new']:
         sessionStorage[user_id] = {
             'suggests': [
-                "Не хочу.",
-                "Не буду.",
-                "Отстань!",
+                "Пешеходный мост",
+                "Памятник Пушкину",
+                "Памятник Чкалову",
             ]
         }
 
         res['response'][
             'text'] = f'Добрый день! Вас приветствует навык "достопримечательности Оренбурга! О чём вы хотите узнать?'
 
-        # res['response']['buttons'] = get_suggests(user_id)
+        res['response']['buttons'] = get_suggests(user_id)
         return
 
         # if req['request']['original_utterance'].lower() in [
@@ -92,7 +92,11 @@ def handle_dialog(req, res):
 
 def get_suggests(user_id):
     global places
-    pass
+    suggests = [
+        {'title': suggest, 'hide': True}
+        for suggest in session['suggests']
+    ]
+    return suggests
 
 
 if __name__ == '__main__':

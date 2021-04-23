@@ -101,9 +101,9 @@ def handle_dialog(req, res):
     if 'пешеходный мост' in req['request']['original_utterance'].lower():
         res['response']['text'] = places[0][1]
     elif 'памятник чкалову' in req['request']['original_utterance'].lower():
-        res['response']['text'] = places[1][1]
-    elif 'памятник пушкину' in req['request']['original_utterance'].lower():
         res['response']['text'] = places[2][1]
+    elif 'памятник пушкину' in req['request']['original_utterance'].lower():
+        res['response']['text'] = places[1][1]
     elif 'башня с курантами' in req['request']['original_utterance'].lower():
         res['response']['text'] = places[3][1]
     elif 'детская железная дорога' in req['request']['original_utterance'].lower():

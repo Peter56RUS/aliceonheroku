@@ -71,7 +71,7 @@ def handle_dialog(req, res):
         # 'ладно',
         # 'куплю',
         # 'покупаю',
-        'хорошо'
+        #'хорошо'
     # ] or 'ладно' in req['request']['original_utterance'].lower() \
     # or 'куплю' in req['request']['original_utterance'].lower() \
     # or 'хорошо' in req['request']['original_utterance'].lower() \
@@ -92,6 +92,7 @@ def handle_dialog(req, res):
 
 def get_suggests(user_id):
     global places
+    session = sessionStorage[user_id]
     suggests = [
         {'title': suggest, 'hide': True}
         for suggest in session['suggests']

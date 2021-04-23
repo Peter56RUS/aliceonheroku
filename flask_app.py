@@ -71,9 +71,9 @@ def handle_dialog(req, res):
     if 'пешеходный мост' in req['request']['original_utterance'].lower():
         res['response']['text'] = places[0][1]
     if 'памятник чкалову' in req['request']['original_utterance'].lower():
-        res['response']['text'] = places[0][1]
+        res['response']['text'] = places[1][1]
     if 'памятник пушкину' in req['request']['original_utterance'].lower():
-        res['response']['text'] = places[0][1]
+        res['response']['text'] = places[2][1]
     res['response']['buttons'] = get_suggests(user_id)
 
 

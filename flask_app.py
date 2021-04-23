@@ -62,32 +62,22 @@ def handle_dialog(req, res):
         }
 
         res['response'][
-            'text'] = f'Добрый день! Вас приветствует навык "Достопримечательности Оренбурга"! О чём вы хотите узнать?'
+            'text'] = f'''Добрый день! Вас приветствует навык "Достопримечательности Оренбурга"! О чём вы хотите узнать?
+Выберите одну из плиток ниже'''
 
         res['response']['buttons'] = get_suggests(user_id)
         return
 
-        # if req['request']['original_utterance'].lower() in [
-        # 'ладно',
-        # 'куплю',
-        # 'покупаю',
-        #'хорошо'
-    # ] or 'ладно' in req['request']['original_utterance'].lower() \
-    # or 'куплю' in req['request']['original_utterance'].lower() \
-    # or 'хорошо' in req['request']['original_utterance'].lower() \
-    # or 'покупаю' in req['request']['original_utterance'].lower():
+    if 'пешеходный мост' in req['request']['original_utterance'].lower():
+        res['response']['text'] = places[0][1]
+    if 'памятник чкалову' in req['request']['original_utterance'].lower():
+        res['response']['text'] = places[0][1]
+    if 'памятник пушкину' in req['request']['original_utterance'].lower():
+        res['response']['text'] = places[0][1]
 
-    # res['response']['text'] = f'{animals}а можно найти на Яндекс.Маркете!'
-    # if animals == 'кролик':
-    # res['response']['end_session'] = True
-    # else:
-    # animals = 'кролик'
 
-    # return
+    return
 
-    # res['response']['text'] = \
-    # f"Все говорят '{req['request']['original_utterance']}', а ты купи {animals}а!"
-    # res['response']['buttons'] = get_suggests(user_id)
 
 
 def get_suggests(user_id):

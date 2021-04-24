@@ -65,24 +65,31 @@ def handle_dialog(req, res):
     rf = True
     if 'пешеходный мост' in req['request']['original_utterance'].lower():
         place = places[0][0]
+        ssylka = places[0][1]
         rf = False
     elif 'памятник чкалову' in req['request']['original_utterance'].lower():
         place = places[1][0]
+        ssylka = places[1][1]
         rf = False
     elif 'памятник пушкину' in req['request']['original_utterance'].lower():
         place = places[2][0]
+        ssylka = places[2][1]
         rf = False
     elif 'башня с курантами' in req['request']['original_utterance'].lower():
         place = places[3][0]
+        ssylka = places[3][1]
         rf = False
     elif 'детская железная дорога' in req['request']['original_utterance'].lower():
         place = places[4][0]
+        ssylka = places[4][1]
         rf = False
     elif 'памятник гагарину' in req['request']['original_utterance'].lower():
         place = places[5][0]
+        ssylka = places[5][1]
         rf = False
     elif 'музей истории оренбурга' in req['request']['original_utterance'].lower():
         place = places[6][0]
+        ssylka = places[6][1]
         rf = False
     elif 'помощь' in req['request']['original_utterance'].lower():
         res['response'][
@@ -100,7 +107,9 @@ def handle_dialog(req, res):
         cur = con.cursor()
 
         result = cur.execute(f"""SELECT answer FROM places WHERE name = '{place}'""").fetchall()
-        res['response']['text'] = result[0][0]
+        res['response']['text'] = result[0][0] + '\n' + \
+                                  'Местоположение вы можете узнать, перейдя по ссылке. Достопримечательность на карте обозначена белой меткой' + \
+                                  '\n' + ssylka
 
 
 def get_suggests(user_id):

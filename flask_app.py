@@ -97,13 +97,10 @@ def handle_dialog(req, res):
     if not rf:
         con = sqlite3.connect("bdfa.db")
 
-        # Создание курсора
         cur = con.cursor()
 
-        # Выполнение запроса и получение всех результатов
         result = cur.execute(f"""SELECT answer FROM places WHERE name = '{place}'""").fetchall()
         res['response']['text'] = result[0][0]
-    rf = True
 
 
 def get_suggests(user_id):

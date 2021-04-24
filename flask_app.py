@@ -2,6 +2,7 @@ from flask import Flask, request
 import logging
 import os
 import json
+import sqlite3
 
 app = Flask(__name__)
 
@@ -42,7 +43,7 @@ places = [('Пешеходный мост через реку Урал',
 Также рекомендуем вам посетить памятник другому лётчику-испытателю, а по совместительству первому космонавту Земли Юрию Гагарину''',
            'ссылка на геокодер'),
           ('Башня с курантами',
-           '''Башня с курантами на Светской
+           '''Башня с курантами на Советской
 
 Гуляя по Советской улице Оренбурга, нельзя не обратить внимание на красивую высокую башню с колоколами. Достопримечательность, ставшая визитной карточкой города, была возведена в 1997 году, а 16 лет спустя на ней появились новые колокола. Примечательно, что они звонят не просто так, а воспроизводят различные мелодии, включая «Прощание славянки» и «Оренбургский платок».
 
@@ -124,27 +125,49 @@ def handle_dialog(req, res):
         res['response']['buttons'] = get_suggests(user_id)
         return
 
+    rf = True
     if 'пешеходный мост' in req['request']['original_utterance'].lower():
-        res['response']['text'] = places[0][1]
+        place = places[0][0]
+        rf = False
     elif 'памятник чкалову' in req['request']['original_utterance'].lower():
-        res['response']['text'] = places[2][1]
+        place = places[1][0]
+        rf = False
     elif 'памятник пушкину' in req['request']['original_utterance'].lower():
-        res['response']['text'] = places[1][1]
+        place = places[2][0]
+        rf = False
     elif 'башня с курантами' in req['request']['original_utterance'].lower():
-        res['response']['text'] = places[3][1]
+        place = places[3][0]
+        rf = False
     elif 'детская железная дорога' in req['request']['original_utterance'].lower():
-        res['response']['text'] = places[4][1]
+        place = places[4][0]
+        rf = False
     elif 'памятник гагарину' in req['request']['original_utterance'].lower():
-        res['response']['text'] = places[5][1]
+        place = places[5][0]
+        rf = False
     elif 'музей истории оренбурга' in req['request']['original_utterance'].lower():
-        res['response']['text'] = places[6][1]
+        place = places[6][0]
+        rf = False
     elif 'помощь' in req['request']['original_utterance'].lower():
-        res['response']['text'] = 'Для того, чтобы узнать информацию о какой-либо достопримечательности города Оренбурга нажмите на плитку с его названием.'
+        res['response'][
+            'text'] = 'Для того, чтобы узнать информацию о какой-либо достопримечательности города Оренбурга нажмите на плитку с его названием.'
     elif 'что ты умеешь' in req['request']['original_utterance'].lower():
-        res['response']['text'] = 'Я рассказываю о различных достопримечательностях города Оренбурга и показываю, где они находятся'
+        res['response'][
+            'text'] = 'Я рассказываю о различных достопримечательностях города Оренбурга и показываю, где они находятся'
     else:
         res['response']['text'] = 'Команда некорректна. Похоже, вы немного ошиблись.'
     res['response']['buttons'] = get_suggests(user_id)
+
+    if not rf:
+        con = sqlite3.connect("bdfa.db")
+
+        # Создание курсора
+        cur = con.cursor()
+
+        # Выполнение запроса и получение всех результатов
+        result = cur.execute(f"""SELECT answer FROM films
+                        WHERE name = {place}""").fetchall()
+        res['response']['text'] = result
+    rf = True
 
 
 def get_suggests(user_id):

@@ -164,7 +164,7 @@ def handle_dialog(req, res):
         cur = con.cursor()
 
         # Выполнение запроса и получение всех результатов
-        result = cur.execute(f"""SELECT answer FROM places WHERE name = {place}""").fetchall()
+        result = cur.execute(f"""SELECT answer FROM places WHERE name = '{place}'""").fetchall()
         res['response']['text'] = result
     rf = True
 

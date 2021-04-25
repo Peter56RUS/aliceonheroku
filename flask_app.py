@@ -68,12 +68,12 @@ def handle_dialog(req, res):
         ssylka = places[0][1]
         rf = False
     elif 'памятник чкалову' in req['request']['original_utterance'].lower():
-        place = places[1][0]
-        ssylka = places[1][1]
-        rf = False
-    elif 'памятник пушкину' in req['request']['original_utterance'].lower():
         place = places[2][0]
         ssylka = places[2][1]
+        rf = False
+    elif 'памятник пушкину' in req['request']['original_utterance'].lower():
+        place = places[1][0]
+        ssylka = places[1][1]
         rf = False
     elif 'башня с курантами' in req['request']['original_utterance'].lower():
         place = places[3][0]

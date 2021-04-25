@@ -112,9 +112,9 @@ def handle_dialog(req, res):
         res['response']['card'] = {}
         res['response']['card']['type'] = 'BigImage'
         res['response']['card']['image_id'] = img
-        res['response']['card']['title'] = result[0][0] + '\n' + \
-                                           'Местоположение вы можете узнать, перейдя по ссылке. Достопримечательность на карте обозначена белой меткой' + \
-                                           '\n' + ssylka
+        res['response']['text'] = result[0][0] + '\n' + \
+                                            'Местоположение вы можете узнать, перейдя по ссылке. Достопримечательность на карте обозначена белой меткой' + \
+                                            '\n' + ssylka
 
 
 def get_suggests(user_id):

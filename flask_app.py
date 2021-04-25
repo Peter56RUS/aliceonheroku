@@ -104,8 +104,10 @@ def handle_dialog(req, res):
             'text'] = 'Я рассказываю о различных достопримечательностях города Оренбурга и показываю, где они находятся'
         ssylka = ''
     elif 'до свидания' in req['request']['original_utterance'].lower() or 'пока' in req['request']['original_utterance'].lower():
+        res['response']['text'] = 'Пока!'
         res['response']['end_session'] = True
-        return
+    elif 'местоположение' in req['request']['original_utterance'].lower():
+        ssylka = ''
     else:
         res['response']['text'] = 'Команда некорректна. Похоже, вы немного ошиблись.'
         ssylka = ''

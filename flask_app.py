@@ -108,6 +108,7 @@ def handle_dialog(req, res):
         res['response']['end_session'] = True
     elif 'местоположение' in req['request']['original_utterance'].lower():
         ssylka = ''
+        res['response']['end_session'] = True
     else:
         res['response']['text'] = 'Команда некорректна. Похоже, вы немного ошиблись.'
         ssylka = ''

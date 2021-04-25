@@ -108,7 +108,7 @@ def handle_dialog(req, res):
 
         result = cur.execute(f"""SELECT answer FROM places WHERE name = '{place}'""").fetchall()
         img = cur.execute(f"""SELECT img FROM places WHERE name = '{place}'""").fetchall()
-        img = img[0]
+        img = img[0][0]
         res['response']['text'] = result[0][0] + '\n' + \
                                   'Местоположение вы можете узнать, перейдя по ссылке. Достопримечательность на карте обозначена белой меткой' + \
                                   '\n' + ssylka

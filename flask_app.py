@@ -17,6 +17,7 @@ places = [('Пешеходный мост через реку Урал', 'https:
           ('Детская железная дорога', 'https://static-maps.yandex.ru/1.x/?ll=55.105659%2C51.754003&size=450,450&z=17&l=map&pt=55.105659%2C51.753900'),
           ("Памятник Гагарину", 'https://static-maps.yandex.ru/1.x/?ll=55.167926%2C51.775930&size=450,450&z=16&l=map&pt=55.167800%2C51.775839'),
           ('Музей истории Оренбурга', 'https://static-maps.yandex.ru/1.x/?ll=55.107350%2C51.755227&size=450,450&z=17&l=map&pt=55.108311%2C51.755413')]
+ssylka = ''
 
 
 @app.route('/post', methods=['POST'])
@@ -39,6 +40,7 @@ def main():
 
 
 def handle_dialog(req, res):
+    global ssylka
     user_id = req['session']['user_id']
 
     if req['session']['new']:
@@ -63,6 +65,7 @@ def handle_dialog(req, res):
         return
 
     rf = True
+    ssylka = ''
     if 'пешеходный мост' in req['request']['original_utterance'].lower():
         place = places[0][0]
         ssylka = places[0][1]
@@ -94,11 +97,14 @@ def handle_dialog(req, res):
     elif 'помощь' in req['request']['original_utterance'].lower():
         res['response'][
             'text'] = 'Для того, чтобы узнать информацию о какой-либо достопримечательности города Оренбурга нажмите на плитку с его названием.'
+        ssylka = ''
     elif 'что ты умеешь' in req['request']['original_utterance'].lower():
         res['response'][
             'text'] = 'Я рассказываю о различных достопримечательностях города Оренбурга и показываю, где они находятся'
+        ssylka = ''
     else:
         res['response']['text'] = 'Команда некорректна. Похоже, вы немного ошиблись.'
+        ssylka = ''
     res['response']['buttons'] = get_suggests(user_id)
 
     if not rf:
@@ -113,17 +119,24 @@ def handle_dialog(req, res):
         res['response']['card']['type'] = 'BigImage'
         res['response']['card']['image_id'] = img
         res['response']['text'] = result[0][0] + '\n' + \
-                                            'Местоположение вы можете узнать, перейдя по ссылке. Достопримечательность на карте обозначена белой меткой'
+                                            'Местоположение вы можете узнать, нажав на кнопку "Местоположение". Достопримечательность на карте обозначена белой меткой'
 
 
 def get_suggests(user_id):
-    global places
+    global places, ssylka
     session = sessionStorage[user_id]
     suggests = [
         {'title': suggest, 'hide': True}
         for suggest in session['suggests']
     ]
+    if ssylka:
+        suggests.append({
+            "title": "Местоположение",
+            "url": ssylka,
+            "hide": True
+        })
     return suggests
+
 
 
 if __name__ == '__main__':

@@ -53,7 +53,8 @@ def handle_dialog(req, res):
                 'Детская железная дорога',
                 'Памятник Гагарину',
                 "Музей истории Оренбурга",
-                "Помощь"
+                "Помощь",
+                'До свидания'
             ]
         }
 
@@ -102,6 +103,9 @@ def handle_dialog(req, res):
         res['response'][
             'text'] = 'Я рассказываю о различных достопримечательностях города Оренбурга и показываю, где они находятся'
         ssylka = ''
+    elif 'до свидания' in req['request']['original_utterance'].lower() or 'пока' in req['request']['original_utterance'].lower():
+        res['response']['end_session'] = True
+        return
     else:
         res['response']['text'] = 'Команда некорректна. Похоже, вы немного ошиблись.'
         ssylka = ''

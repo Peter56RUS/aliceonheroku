@@ -125,16 +125,19 @@ def handle_dialog(req, res):
 def get_suggests(user_id):
     global places, ssylka
     session = sessionStorage[user_id]
-    suggests = [
-        {'title': suggest, 'hide': True}
-        for suggest in session['suggests']
-    ]
     if ssylka:
-        suggests.append({
+        suggests = [{
             "title": "Местоположение",
             "url": ssylka,
             "hide": True
-        })
+        }]
+        for suggest in session['suggests']:
+            suggests.append({'title': suggest, 'hide': True})
+    else:
+        suggests = [
+            {'title': suggest, 'hide': True}
+            for suggest in session['suggests']
+        ]
     return suggests
 
 

@@ -69,6 +69,7 @@ def handle_dialog(req, res):
     if 'место' in req['request']['original_utterance'].lower():
         ssylka = ''
         res['response']['end_session'] = True
+        return 
 
     rf = True
     ssylka = ''

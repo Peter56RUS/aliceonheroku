@@ -10,8 +10,8 @@ logging.basicConfig(level=logging.INFO)
 
 sessionStorage = {}
 
-places = [('Пешеходный мост через реку Урал', '<a>https://static-maps.yandex.ru/1.x/?ll=55.107619%2C51.753210&size=450,450&z=17&l=map&pt=55.107250%2C51.753077</a>'),
-          ('Памятник Пушкину и Далю', "<a>https://static-maps.yandex.ru/1.x/?ll=55.099437%2C51.764943&size=450,450&z=18&l=map&pt=55.099437%2C51.764943</a>"),
+places = [('Пешеходный мост через реку Урал', 'https://static-maps.yandex.ru/1.x/?ll=55.107619%2C51.753210&size=450,450&z=17&l=map&pt=55.107250%2C51.753077'),
+          ('Памятник Пушкину и Далю', "https://static-maps.yandex.ru/1.x/?ll=55.099437%2C51.764943&size=450,450&z=18&l=map&pt=55.099437%2C51.764943"),
           ('Памятник Валерию Чкалову', 'https://static-maps.yandex.ru/1.x/?ll=55.106317%2C51.754628&size=450,450&z=18&l=map&pt=55.106317%2C51.754628'),
           ('Башня с курантами', 'https://static-maps.yandex.ru/1.x/?ll=55.1001008%2C51.764688&size=450,450&z=18&l=map&pt=55.100025%2C51.764688'),
           ('Детская железная дорога', 'https://static-maps.yandex.ru/1.x/?ll=55.105659%2C51.754003&size=450,450&z=17&l=map&pt=55.105659%2C51.753900'),
@@ -114,7 +114,6 @@ def handle_dialog(req, res):
         res['response']['card']['image_id'] = img
         res['response']['text'] = result[0][0] + '\n' + \
                                             'Местоположение вы можете узнать, перейдя по ссылке. Достопримечательность на карте обозначена белой меткой'
-        res['response']['card']['title'] = ssylka
 
 
 def get_suggests(user_id):

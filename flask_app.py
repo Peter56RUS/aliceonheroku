@@ -71,6 +71,7 @@ def handle_dialog(req, res):
         res['response']['end_session'] = True
         return 
 
+
     rf = True
     ssylka = ''
     if 'пешеходный мост' in req['request']['original_utterance'].lower():
@@ -112,6 +113,7 @@ def handle_dialog(req, res):
     elif 'до свидания' in req['request']['original_utterance'].lower() or 'пока' in req['request']['original_utterance'].lower():
         res['response']['text'] = 'Пока!'
         res['response']['end_session'] = True
+        return
     else:
         res['response']['text'] = 'Команда некорректна. Похоже, вы немного ошиблись.'
         ssylka = ''
